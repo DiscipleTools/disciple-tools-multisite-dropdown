@@ -1,22 +1,5 @@
-[![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown-template.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown-template)
+[![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown)
 
 # Disciple Tools Multisite Dropdown
-The Disciple Tools Multisite Dropdown is intended to accelerate integrations and extensions to the Disciple Tools system.
-This basic plugin starter has some of the basic elements to quickly launch and extension project in the pattern of
-the Disciple Tools system.
-
-
-### The starter plugin is equipped with:
-1. Wordpress style requirements
-1. Travis Continueous Integration
-1. Disciple Tools Theme presence check
-1. Remote upgrade system for ongoing updates outside the Wordpress Directory
-1. Multilingual ready
-1. PHP Code Sniffer support (composer) @use /vendor/bin/phpcs and /vendor/bin/phpcbf
-1. Starter Admin menu and options page with tabs.
-
-### Refactoring this plugin as your own:
-1. Refactor all occurrences of the name `Starter_Plugin`, `starter_plugin`, `multisite-dropdown`, and `Multisite Dropdown` with you're own plugin
-name for the `disciple-tools-multisite-dropdown.php and admin-menu-and-tabs.php files.
-1. Update the README.md and LICENSE
-1. Update the translation strings inside `default.pot` file with a multilingual software like POEdit, if you intend to make your plugin multilingual.
+This is a simple plugin that adds a dropdown of other sites a user is connected to on the same multisite server. It
+accelerates their moving around on the DT network on that server. It does automatically list other sites they are part of.
