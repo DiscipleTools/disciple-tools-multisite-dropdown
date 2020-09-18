@@ -30,6 +30,12 @@ $dt_multisite_dropdown_required_dt_theme_version = '0.31.0';
  * @return object|bool
  */
 function dt_multisite_dropdown() {
+
+    // must be multisite
+    if ( ! is_multisite() ) {
+        return false;
+    }
+
     global $dt_multisite_dropdown_required_dt_theme_version;
     $wp_theme = wp_get_theme();
     $version = $wp_theme->version;
@@ -56,13 +62,12 @@ function dt_multisite_dropdown() {
      * Don't load the plugin on every rest request. Only those with the 'sample' namespace
      */
     $is_rest = dt_is_rest();
-    //@todo change 'sample' if you want the plugin to be set up when using rest api calls other than ones with the 'sample' namespace
     if ( ! $is_rest ){
         return DT_Multisite_Dropdown::get_instance();
     }
     return false;
 }
-add_action( 'after_setup_theme', 'dt_multisite_dropdown' );
+add_action( 'plugins_loaded', 'dt_multisite_dropdown' );
 
 /**
  * Singleton class for setting up the plugin.
@@ -114,7 +119,10 @@ class DT_Multisite_Dropdown {
      * @return void
      */
     private function __construct() {
+
     }
+
+
 
     /**
      * Loads files needed by the plugin.
@@ -127,6 +135,8 @@ class DT_Multisite_Dropdown {
 
     }
 
+
+
     /**
      * Sets up globals.
      *
@@ -135,21 +145,9 @@ class DT_Multisite_Dropdown {
      * @return void
      */
     private function setup() {
-
         // Main plugin directory path and URI.
-        $this->dir_path     = trailingslashit( plugin_dir_path( __FILE__ ) );
-        $this->dir_uri      = trailingslashit( plugin_dir_url( __FILE__ ) );
-
-        // Plugin directory paths.
-        $this->includes_path      = trailingslashit( $this->dir_path . 'includes' );
-
-        // Plugin directory URIs.
-        $this->img_uri      = trailingslashit( $this->dir_uri . 'img' );
-
-        // Admin and settings variables
         $this->token             = 'dt_multisite_dropdown';
         $this->version             = '0.1';
-
     }
 
     /**
@@ -161,24 +159,14 @@ class DT_Multisite_Dropdown {
      */
     private function setup_actions() {
 
+        add_action( 'dt_nav_add_post_settings', [ $this, 'network_sites' ] );
+
         if ( is_admin() ){
             // Check for plugin updates
             if ( ! class_exists( 'Puc_v4_Factory' ) ) {
                 require( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
             }
-            /**
-             * Below is the publicly hosted .json file that carries the version information. This file can be hosted
-             * anywhere as long as it is publicly accessible. You can download the version file listed below and use it as
-             * a template.
-             * Also, see the instructions for version updating to understand the steps involved.
-             * @see https://github.com/DiscipleTools/disciple-tools-version-control/wiki/How-to-Update-the-Starter-Plugin
-             * @todo enable this section with your own hosted file
-             * @todo An example of this file can be found in /includes/admin/disciple-tools-multisite-dropdown-version-control.json
-             * @todo It is recommended to host this version control file outside the project itself. Github is a good option for delivering static json.
-             */
-
-
-            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-version-control/master/disciple-tools-multisite-dropdown-version-control.json"; // @todo change this url
+            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/includes/admin/version-control.json"; // @todo change this url
             Puc_v4_Factory::buildUpdateChecker(
                 $hosted_json,
                 __FILE__,
@@ -196,6 +184,27 @@ class DT_Multisite_Dropdown {
         }
     }
 
+    public function network_sites() {
+        $user_sites = get_blogs_of_user( get_current_user_id() );
+        if ( count( $user_sites ) <= 1 ) {
+            return;
+        }
+        ?>
+        <li>
+            <button>
+                <i class="fi-web" style="color:white; font-size:2rem;"></i>
+            </button>
+            <ul class="submenu menu vertical">
+                <?php
+                foreach ( $user_sites as $site ){
+                    echo '<li><a href="' . esc_url( $site->siteurl ) . '">'. esc_html( $site->blogname ) .'</a>';
+                }
+                ?>
+            </ul>
+        </li>
+        <?php
+    }
+
     /**
      * Filters the array of row meta for each/specific plugin in the Plugins list table.
      * Appends additional links below each/specific plugin on the plugins page.
@@ -211,7 +220,8 @@ class DT_Multisite_Dropdown {
         if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
             // You can still use `array_unshift()` to add links at the beginning.
 
-            $links_array[] = '<a href="https://disciple.tools">Disciple.Tools Community</a>'; // @todo replace with your links.
+            $links_array[] = '<a href="https://disciple.tools">Disciple.Tools Community</a>';
+            $links_array[] = '<a href="https://github.com/DiscipleTools/disciple-tools-multisite-dropdown">Github Project</a>';
 
             // add other links here
         }
