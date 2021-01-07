@@ -3,12 +3,12 @@
  * Plugin Name: Disciple Tools - Multisite Dropdown
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
  * Description: Disciple Tools - Multisite Dropdown adds a dropdown list of other sites the user is connected to on a multisite network.
- * Version:  0.2
+ * Version:  1.0
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
  * Requires at least: 4.7.0
  * (Requires 4.7+ because of the integration of the REST API at 4.7 and the security requirements of this milestone version.)
- * Tested up to: 5.5.1
+ * Tested up to: 5.6
  *
  * @package Disciple_Tools
  * @link    https://github.com/DiscipleTools
@@ -22,7 +22,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
-$dt_multisite_dropdown_required_dt_theme_version = '0.31.0';
+$dt_multisite_dropdown_required_dt_theme_version = '1.0';
 
 /**
  * Gets the instance of the `DT_Multisite_Dropdown` class.

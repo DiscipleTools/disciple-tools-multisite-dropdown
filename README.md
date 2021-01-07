@@ -3,3 +3,5 @@
 # Disciple Tools Multisite Dropdown
 This is a simple plugin that adds a dropdown of other sites that a user is connected to on the same multisite server. It
 accelerates their moving around on a DT Network on that server.
+
+![includes/dropdown-screenshot.jpg](includes/dropdown-screenshot.jpg)
