@@ -3,7 +3,7 @@
  * Plugin Name: Disciple Tools - Multisite Dropdown
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
  * Description: Disciple Tools - Multisite Dropdown adds a dropdown list of other sites the user is connected to on a multisite network.
- * Version:  1.0
+ * Version:  1.1
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
  * Requires at least: 4.7.0
@@ -18,11 +18,7 @@
  * @version 0.2 Version bump and confirmation of Disciple Tools 1.0 compatibility
  */
 
-
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
-}
-$dt_multisite_dropdown_required_dt_theme_version = '1.0';
+if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 /**
  * Gets the instance of the `DT_Multisite_Dropdown` class.
@@ -38,7 +34,7 @@ function dt_multisite_dropdown() {
         return false;
     }
 
-    global $dt_multisite_dropdown_required_dt_theme_version;
+    $dt_multisite_dropdown_required_dt_theme_version = '1.0';
     $wp_theme = wp_get_theme();
     $version = $wp_theme->version;
 
@@ -47,8 +43,6 @@ function dt_multisite_dropdown() {
      */
     $is_theme_dt = strpos( $wp_theme->get_template(), "disciple-tools-theme" ) !== false || $wp_theme->name === "Disciple Tools";
     if ( $is_theme_dt && version_compare( $version, $dt_multisite_dropdown_required_dt_theme_version, "<" ) ) {
-        add_action( 'admin_notices', 'dt_multisite_dropdown_hook_admin_notice' );
-        add_action( 'wp_ajax_dismissed_notice_handler', 'dt_hook_ajax_notice_handler' );
         return false;
     }
     if ( !$is_theme_dt ){
@@ -65,7 +59,7 @@ function dt_multisite_dropdown() {
      */
     $is_rest = dt_is_rest();
     if ( ! $is_rest ){
-        return DT_Multisite_Dropdown::get_instance();
+        return DT_Multisite_Dropdown::instance();
     }
     return false;
 }
@@ -79,87 +73,14 @@ add_action( 'plugins_loaded', 'dt_multisite_dropdown' );
  */
 class DT_Multisite_Dropdown {
 
-    /**
-     * Declares public variables
-     *
-     * @since  0.1
-     * @access public
-     * @return object
-     */
-    public $token;
-    public $version;
-    public $dir_path = '';
-    public $dir_uri = '';
-    public $img_uri = '';
-    public $includes_path;
-
-    /**
-     * Returns the instance.
-     *
-     * @since  0.1
-     * @access public
-     * @return object
-     */
-    public static function get_instance() {
-
-        static $instance = null;
-
-        if ( is_null( $instance ) ) {
-            $instance = new dt_multisite_dropdown();
-            $instance->setup();
-            $instance->includes();
-            $instance->setup_actions();
+    private static $_instance = null;
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
         }
-        return $instance;
+        return self::$_instance;
     }
-
-    /**
-     * Constructor method.
-     *
-     * @since  0.1
-     * @access private
-     * @return void
-     */
     private function __construct() {
-
-    }
-
-
-
-    /**
-     * Loads files needed by the plugin.
-     *
-     * @since  0.1
-     * @access public
-     * @return void
-     */
-    private function includes() {
-
-    }
-
-
-
-    /**
-     * Sets up globals.
-     *
-     * @since  0.1
-     * @access public
-     * @return void
-     */
-    private function setup() {
-        // Main plugin directory path and URI.
-        $this->token             = 'dt_multisite_dropdown';
-        $this->version             = '0.1';
-    }
-
-    /**
-     * Sets up main plugin actions and filters.
-     *
-     * @since  0.1
-     * @access public
-     * @return void
-     */
-    private function setup_actions() {
 
         add_action( 'dt_nav_add_post_settings', [ $this, 'network_sites' ] );
 
@@ -168,20 +89,15 @@ class DT_Multisite_Dropdown {
             if ( ! class_exists( 'Puc_v4_Factory' ) ) {
                 require( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
             }
-            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/includes/admin/version-control.json"; // @todo change this url
+            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/version-control.json";
             Puc_v4_Factory::buildUpdateChecker(
                 $hosted_json,
                 __FILE__,
                 'disciple-tools-multisite-dropdown'
             );
-
         }
 
-        // Internationalize the text strings used.
-        add_action( 'init', array( $this, 'i18n' ), 2 );
-
         if ( is_admin() ) {
-            // adds links to the plugin description area in the plugin admin list.
             add_filter( 'plugin_row_meta', [ $this, 'plugin_description_links' ], 10, 4 );
         }
     }
@@ -238,16 +154,7 @@ class DT_Multisite_Dropdown {
      * @access public
      * @return void
      */
-    public static function activation() {
-
-        // Confirm 'Administrator' has 'manage_dt' privilege. This is key in 'remote' configuration when
-        // Disciple Tools theme is not installed, otherwise this will already have been installed by the Disciple Tools Theme
-        $role = get_role( 'administrator' );
-        if ( !empty( $role ) ) {
-            $role->add_cap( 'manage_dt' ); // gives access to dt plugin options
-        }
-
-    }
+    public static function activation() {}
 
     /**
      * Method that runs only when the plugin is deactivated.
@@ -258,17 +165,6 @@ class DT_Multisite_Dropdown {
      */
     public static function deactivation() {
         delete_option( 'dismissed-dt-multisite-dropdown' );
-    }
-
-    /**
-     * Loads the translation files.
-     *
-     * @since  0.1
-     * @access public
-     * @return void
-     */
-    public function i18n() {
-        load_plugin_textdomain( 'dt_multisite_dropdown', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ). 'languages' );
     }
 
     /**
@@ -317,54 +213,5 @@ class DT_Multisite_Dropdown {
         _doing_it_wrong( "dt_multisite_dropdown::" . esc_html( $method ), 'Method does not exist.', '0.1' );
         unset( $method, $args );
         return null;
-    }
-}
-// end main plugin class
-
-// Register activation hook.
-register_activation_hook( __FILE__, [ 'DT_Multisite_Dropdown', 'activation' ] );
-register_deactivation_hook( __FILE__, [ 'DT_Multisite_Dropdown', 'deactivation' ] );
-
-function dt_multisite_dropdown_hook_admin_notice() {
-    global $dt_multisite_dropdown_required_dt_theme_version;
-    $wp_theme = wp_get_theme();
-    $current_version = $wp_theme->version;
-    $message = __( "'Disciple Tools - Multisite Dropdown' plugin requires 'Disciple Tools' theme to work. Please activate 'Disciple Tools' theme or make sure it is latest version.", "dt_multisite_dropdown" );
-    if ( $wp_theme->get_template() === "disciple-tools-theme" ){
-        $message .= sprintf( esc_html__( 'Current Disciple Tools version: %1$s, required version: %2$s', 'dt_multisite_dropdown' ), esc_html( $current_version ), esc_html( $dt_multisite_dropdown_required_dt_theme_version ) );
-    }
-    // Check if it's been dismissed...
-    if ( ! get_option( 'dismissed-dt-multisite-dropdown', false ) ) { ?>
-        <div class="notice notice-error notice-dt-multisite-dropdown is-dismissible" data-notice="dt-multisite-dropdown">
-            <p><?php echo esc_html( $message );?></p>
-        </div>
-        <script>
-            jQuery(function($) {
-                $( document ).on( 'click', '.notice-dt-multisite-dropdown .notice-dismiss', function () {
-                    $.ajax( ajaxurl, {
-                        type: 'POST',
-                        data: {
-                            action: 'dismissed_notice_handler',
-                            type: 'dt-multisite-dropdown',
-                            security: '<?php echo esc_html( wp_create_nonce( 'wp_rest_dismiss' ) ) ?>'
-                        }
-                    })
-                });
-            });
-        </script>
-    <?php }
-}
-
-
-/**
- * AJAX handler to store the state of dismissible notices.
- */
-if ( !function_exists( "dt_hook_ajax_notice_handler" )){
-    function dt_hook_ajax_notice_handler(){
-        check_ajax_referer( 'wp_rest_dismiss', 'security' );
-        if ( isset( $_POST["type"] ) ){
-            $type = sanitize_text_field( wp_unslash( $_POST["type"] ) );
-            update_option( 'dismissed-' . $type, true );
-        }
     }
 }

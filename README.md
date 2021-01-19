@@ -41,5 +41,5 @@ system for git. For a more details on contribution see the
 
 ## Screenshots
 
-![includes/dropdown-screenshot.jpg](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/includes/dropdown-screenshot.jpg)
+![includes/dropdown-screenshot.jpg](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/screenshot.jpg)
 
