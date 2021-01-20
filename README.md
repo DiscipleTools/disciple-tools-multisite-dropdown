@@ -2,7 +2,7 @@
 
 # Disciple.Tools - Multisite Dropdown
 
-Add a simple dropdown menu that lists other Disciple.Tools site the user is a member of on the same multisite server.
+Add a simple dropdown menu that lists other Disciple.Tools sites the user is a member of on the same multisite server.
 
 ## Purpose
 
