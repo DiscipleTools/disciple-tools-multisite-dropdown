@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown)
 
-# Disciple Tools - Multisite Dropdown
+# Disciple.Tools - Multisite Dropdown
 
-Add simple dropdown that lists other Disciple.Tools site the user is a member of on the same multisite server.
+Add simple dropdown menu that lists other Disciple.Tools site the user is a member of on the same multisite server.
 
 ## Purpose
 
@@ -21,7 +21,7 @@ sites (teams), the dropdown provides quick links between the sites customized to
 
 ## Requirements
 
-- Disciple Tools Theme installed on a Wordpress Server
+- Disciple.Tools Theme installed on a Wordpress Server
 - Multisite Wordpress server
 
 ## Installing
