@@ -3,7 +3,7 @@
  * Plugin Name: Disciple Tools - Multisite Dropdown
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
  * Description: Disciple Tools - Multisite Dropdown adds a dropdown list of other sites the user is connected to on a multisite network.
- * Version:  1.1
+ * Version:  1.2
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
  * Requires at least: 4.7.0
@@ -112,14 +112,24 @@ class DT_Multisite_Dropdown {
             <button>
                 <i class="fi-web" style="color:white; font-size:2rem;"></i>
             </button>
-            <ul class="submenu menu vertical">
+            <ul class="submenu menu vertical" id="multisite-dropdown-ul" style="overflow-x: hidden; overflow-y: auto;">
                 <?php
                 foreach ( $user_sites as $site ){
-                    echo '<li><a href="' . esc_url( $site->siteurl ) . '">'. esc_html( $site->blogname ) .'</a>';
+                    echo '<li><a href="' . esc_url( $site->siteurl ) . '">'. esc_html( $site->blogname ) .'</a></li>';
                 }
                 ?>
             </ul>
         </li>
+        <?php
+        $height_needed = count( $user_sites ) * 50 + 100;
+        ?>
+        <script>
+            if ( window.innerHeight < <?php echo esc_html( $height_needed ) ?> ) {
+                jQuery(document).ready(function(){
+                    jQuery('#multisite-dropdown-ul').css('height', window.innerHeight - 50)
+                })
+            }
+        </script>
         <?php
     }
 
