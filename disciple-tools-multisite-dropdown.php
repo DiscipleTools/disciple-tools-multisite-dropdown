@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Disciple Tools - Multisite Dropdown
+ *Plugin Name: Disciple.Tools - Multisite Dropdown
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
  * Description: Disciple Tools - Multisite Dropdown adds a dropdown list of other sites the user is connected to on a multisite network.
  * Version:  1.3
