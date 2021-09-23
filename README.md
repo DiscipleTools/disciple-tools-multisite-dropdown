@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown)
 
-![Multisite Dropdown](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/multisite-dropdown-banner.png)
+![Plugin Banner](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/multisite-dropdown-banner.png)
 # Disciple.Tools - Multisite Dropdown
 
 Add a simple dropdown menu that lists other Disciple.Tools sites the user is a member of on the same multisite server.
