@@ -2,7 +2,7 @@
 /**
  *Plugin Name: Disciple.Tools - Multisite Dropdown
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
- * Description: Disciple Tools - Multisite Dropdown adds a dropdown list of other sites the user is connected to on a multisite network.
+ * Description: Disciple.Tools - Multisite Dropdown adds a dropdown list of other sites the user is connected to on a multisite network.
  * Version:  1.3
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-multisite-dropdown
@@ -15,7 +15,7 @@
  * @license GPL-2.0 or later
  *          https://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 0.2 Version bump and confirmation of Disciple Tools 1.0 compatibility
+ * @version 0.2 Version bump and confirmation of Disciple.Tools 1.0 compatibility
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
