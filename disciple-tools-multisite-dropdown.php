@@ -63,7 +63,7 @@ function dt_multisite_dropdown() {
     }
     return false;
 }
-add_action( 'plugins_loaded', 'dt_multisite_dropdown' );
+add_action( 'after_setup_theme', 'dt_multisite_dropdown' );
 
 /**
  * Singleton class for setting up the plugin.
