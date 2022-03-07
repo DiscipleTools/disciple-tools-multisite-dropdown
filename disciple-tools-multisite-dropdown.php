@@ -91,8 +91,14 @@ class DT_Multisite_Dropdown {
 
     public function network_sites() {
         $user_sites = get_blogs_of_user( get_current_user_id() );
+
         if ( count( $user_sites ) <= 1 ) {
             return;
+        }
+        $if_has_porch = true; // @todo make an admin configuration
+        $destination = '';
+        if ( $if_has_porch ) {
+            $destination = 'contacts';
         }
         ?>
         <li>
@@ -102,7 +108,7 @@ class DT_Multisite_Dropdown {
             <ul class="submenu menu vertical" id="multisite-dropdown-ul" style="overflow-x: hidden; overflow-y: auto;">
                 <?php
                 foreach ( $user_sites as $site ){
-                    echo '<li><a href="' . esc_url( $site->siteurl ) . '">'. esc_html( $site->blogname ) .'</a></li>';
+                    echo '<li><a href="' . esc_url( trailingslashit( $site->siteurl ) ) . $destination . '">'. esc_html( $site->blogname ) .'</a></li>';
                 }
                 ?>
             </ul>
