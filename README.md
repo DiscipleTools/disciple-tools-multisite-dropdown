@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown)
-
 ![Plugin Banner](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/multisite-dropdown-banner.png)
 # Disciple.Tools - Multisite Dropdown
 
@@ -44,3 +42,4 @@ system for git. For a more details on contribution see the
 
 ![includes/dropdown-screenshot.jpg](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-multisite-dropdown/master/screenshot.jpg)
 
+[![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-multisite-dropdown)
