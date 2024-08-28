@@ -92,12 +92,13 @@ class DT_Multisite_Dropdown {
     public function network_sites() {
         $user_sites = get_blogs_of_user( get_current_user_id() );
 
+        /**
+         * Filter to modify default links or add additional links
+         */
+        $user_sites = apply_filters( 'dt_multisite_dropdown_sites', $user_sites );
+
         if ( count( $user_sites ) <= 1 ) {
             return;
-        }
-        $destination = '';
-        if ( ! SUBDOMAIN_INSTALL ) {
-            $destination = 'contacts';
         }
         ?>
         <li>
@@ -107,7 +108,7 @@ class DT_Multisite_Dropdown {
             <ul class="submenu menu vertical" id="multisite-dropdown-ul" style="overflow-x: hidden; overflow-y: auto;">
                 <?php
                 foreach ( $user_sites as $site ){
-                    echo '<li><a href="' . esc_url( trailingslashit( $site->siteurl )  . $destination ) . '">'. esc_html( $site->blogname ) .'</a></li>';
+                    echo '<li><a href="' . esc_url( trailingslashit( $site->siteurl ) ) . '">'. esc_html( $site->blogname ) .'</a></li>';
                 }
                 ?>
             </ul>
